@@ -128,22 +128,26 @@ def get_yi():
     }
     region_url = "https://fwcs.linkingcloud.cn/YuYue/OrderDocNoSources"
     print(12123123)
-    response = post(region_url, data=data, headers=headers).json()
-    print(response)
     result = ''
-    for key, value in response.items():
-        if key == 'docResourceResourceList':
-            for obj in value:
-                days = obj['day']
-                resource_memo = obj['resourceMemo']
-                registLevel1 = obj['registLevel1']
-                amount = obj['amount']
-                print(f"日期: {days}, 是否有号: {resource_memo},院区:{registLevel1},价格:{amount}")
-                # result += f"日期: {days}, 是否有号: {resource_memo},院区{registLevel1},价格{amount}"
-                if resource_memo == '有号':
-                    result += f"日期: {days}, 是否有号: {resource_memo},院区{registLevel1},价格{amount} "
-                if result == '':
-                    result = '今天都没有号哦！'
+    try :
+        response = post(region_url, data=data, headers=headers).json()
+        print(response)
+
+        for key, value in response.items():
+            if key == 'docResourceResourceList':
+                for obj in value:
+                    days = obj['day']
+                    resource_memo = obj['resourceMemo']
+                    registLevel1 = obj['registLevel1']
+                    amount = obj['amount']
+                    print(f"日期: {days}, 是否有号: {resource_memo},院区:{registLevel1},价格:{amount}")
+                    # result += f"日期: {days}, 是否有号: {resource_memo},院区{registLevel1},价格{amount}"
+                    if resource_memo == '有号':
+                        result += f"日期: {days}, 是否有号: {resource_memo},院区{registLevel1},价格{amount} "
+                    if result == '':
+                        result = '今天都没有号哦！'
+    except:
+           result = 'cookie过期！'
     return result
 
 
